@@ -31,18 +31,47 @@
 </nav>
 
 <h1>Reports list</h1>
+
+
 {% if checks_ran_searched_query %}
-You searched for : {% for check in checks %}<strong>{{check}}</strong> {% endfor %} in {% for query in checks_ran_searched_query %} <strong>  {{query.checks_ran}}</strong>{% endfor %} <br>
-{% for query in checks_ran_searched_query %}
-<strong>Checks Ran: </strong>{{query.checks_ran|truncatewords:5}} <br> {% for check in checks %}<strong>{{check}}</strong>{% endfor %} <p>{% for ck in last_5_checks_ran %} {{ck}} {% endfor %}</p>
-<!-- <strong>Recommendations: </strong>{{query.recommendations}} <br> -->
+
+<!-- checks ran -->
+
+{% for checks in next_5_checks_ran %}
+Database OBJ: {{checks.checks_ran}} <br>
+{{checks.prev_5}}
+
+<strong>{{checks.query}}</strong>
+
+{{checks.next_5_words}}
 {% endfor %}
+
+
 {% else %} 
-{% for recommendations in recommendations_searched_query %}
-<p>You searched for :</p> <strong>{% for r in recommended_query %} {{r}} {% endfor %}</strong> in <p>{{recommendations.recommendations}}</p> <br>
-<strong>Recommendations: </strong>{{recommendations.recommendations|truncatewords_html:5|safe}} <strong>{% for r in recommended_query %} {{r}} {% endfor %}</strong> {% for last_5_words in last_5_recommended %} {{last_5_words}} {% endfor %}<br>
+<!--  recommendations -->
+
+{% for rr in next_5_recomends %}
+
+Database OBJ: {{rr.recommendation_query}} <br>
+<!-- prev 5 -->
+{{rr.prev_str}}
+
+<!-- searched word -->
+<strong>
+{{rr.query}}
+</strong>
+
+
+<!-- next 5 words -->
+{{rr.found_word}} <br>
 {% endfor %}
+
+
 {% endif %}
+
+
+
+<!-- all reports -->
 {% for report in reports %}
 <strong>counter</strong>: {{forloop.counter}} <br>
 <strong>ID</strong>: {{report.id}} <br>
