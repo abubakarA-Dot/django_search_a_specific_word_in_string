@@ -39,31 +39,38 @@
 
 {% for checks in next_5_checks_ran %}
 Database OBJ: {{checks.checks_ran}} <br>
-{{checks.prev_5}}
+Checks Ran Title: <strong>{{checks.query_title}} <br></strong>
+Farm Title: <strong>{{checks.farm_id}} <br></strong>
 
-<strong>{{checks.query}}</strong>
+Prev 5 check ran: {{checks.prev_5}} <br>
 
-{{checks.next_5_words}}
+Searched Query: <strong>{{checks.query}} <br> </strong>
+
+Next 5 check ran: {{checks.next_5_words}} <br>
 {% endfor %}
 
 
-{% else %} 
+{% endif %} 
+{% if recommendations_searched_query %}
 <!--  recommendations -->
 
 {% for rr in next_5_recomends %}
 
 Database OBJ: {{rr.recommendation_query}} <br>
+Recommendations Title: <strong>{{rr.query_title}} <br></strong>
+Farm Title: <strong>{{rr.farm_id}} <br></strong>
 <!-- prev 5 -->
-{{rr.prev_str}}
+Prev 5 Words <p>{{rr.prev_str}}</p>
 
 <!-- searched word -->
+Searched Query:
 <strong>
-{{rr.query}}
+{{rr.query}} <br>
 </strong>
 
 
 <!-- next 5 words -->
-{{rr.found_word}} <br>
+Next 5 words: {{rr.found_word}} <br>
 {% endfor %}
 
 

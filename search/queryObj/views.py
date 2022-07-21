@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from . models import *
 from django.db.models import Q
 from django.views.generic import ListView
+import re
 
 # Create your views here.
 
@@ -87,8 +88,9 @@ class RecommendationsChecksRanSearch(ListView):
 
             
             next_5_checks_ran = []
+            next_5_for_first = []
             for chks in checks_ran_searched_query:
-                chks_result = chks.checks_ran.split()
+                chks_result = re.sub("(?<=\D)[.,]|[.,](?=\D)", " ",chks.checks_ran.lower()).split()
                 if query in chks_result:
                     # to display next 5 words after the searched word
                     chks_resultt = chks_result[chks_result.index(query) + 1: chks_result.index(query) + 6]
@@ -100,7 +102,9 @@ class RecommendationsChecksRanSearch(ListView):
                         'checks_ran': chks.checks_ran,
                         'next_5_words': next_5_checks,
                         'prev_5': prev_5_words,
-                        'query': query
+                        'query': query,
+                        'query_title': chks.title,
+                        'farm_id':chks.farm.farm_name,
                     })
 
     
@@ -115,24 +119,31 @@ class RecommendationsChecksRanSearch(ListView):
 
 
             recommendations_searched_query = Report.objects.filter(Q(recommendations__icontains=query))
-            # result = [q for q in recommendations_searched_query]
+            result = [q for q in recommendations_searched_query]
             
             
             next_5_recommended = []
             for recomends in recommendations_searched_query:
-                recomendss = recomends.recommendations.split()
+                # recomendss = re.split("\s|(?<!\d)[,.](?!\d)", recomends.recommendations.lower())
+                recomendss = re.sub("(?<=\D)[.,]|[.,](?=\D)", " ",recomends.recommendations.lower()).split()
                 if query in recomendss:
-                    # to display next 5 words after the searched word from recommendations
-                    recomendsss = recomendss[recomendss.index(query) + 1: recomendss.index(query) + 6]
-                    strr = " ".join(recomendsss)
+
                     # to display previous 5 words from recommendations
                     prev_5_wordd = recomendss[recomendss.index(query) - 5: recomendss.index(query)]
+                    print("\n prev 5", prev_5_wordd)
                     prev_str = " ".join(prev_5_wordd)
+
+                    # to display next 5 words after the searched word from recommendations
+                    recomendsss = recomendss[recomendss.index(query) + 1: recomendss.index(query) + 6]
+                    next_strr = " ".join(recomendsss)
+                    
                     next_5_recommended.append({
                         'recommendation_query':recomends.recommendations,
-                        'found_word':strr,
+                        'found_word':next_strr,
                         'prev_str':prev_str,
                         'query': query,
+                        'query_title': recomends.title,
+                        'farm_id':recomends.farm.farm_name,
                     })
 
 
@@ -172,6 +183,7 @@ class RecommendationsChecksRanSearch(ListView):
         context['next_5_recomends'] = next_5_recommended
         context['checks_ran_searched_query'] = checks_ran_searched_query
         context['recommendations_searched_query'] = recommendations_searched_query
+        context['next_5_for_first'] = next_5_for_first
         # context['recommended_query'] = recommended_query
         # context['checks'] = checks_list
         return context

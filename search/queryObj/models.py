@@ -28,7 +28,7 @@ class Farm(models.Model):
 
 
 
-    def str(self):
+    def __str__(self):
         return self.farm_name
 
 
