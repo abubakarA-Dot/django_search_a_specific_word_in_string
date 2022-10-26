@@ -126,11 +126,14 @@ class RecommendationsChecksRanSearch(ListView):
             for recomends in recommendations_searched_query:
                 # recomendss = re.split("\s|(?<!\d)[,.](?!\d)", recomends.recommendations.lower())
                 recomendss = re.sub("(?<=\D)[.,]|[.,](?=\D)", " ",recomends.recommendations.lower()).split()
+                print("\n List of recommendations \n", recomendss)
+                print("\n Result \n",recomendss[-3:recomendss.index(query)])
                 if query in recomendss:
 
                     # to display previous 5 words from recommendations
-                    prev_5_wordd = recomendss[recomendss.index(query) - 5: recomendss.index(query)]
+                    prev_5_wordd = recomendss[: recomendss.index(query)]
                     print("\n prev 5", prev_5_wordd)
+
                     prev_str = " ".join(prev_5_wordd)
 
                     # to display next 5 words after the searched word from recommendations
@@ -176,14 +179,14 @@ class RecommendationsChecksRanSearch(ListView):
             #         checks_list.append(query)
             #         print("\n Checks ran word \n", checks_list)
             #         break
-        context = super().get_context_data(**kwargs)
-        context['next_5_checks_ran'] = next_5_checks_ran
-        # context['prev_5_words_checks_ran'] = prev_5_words_checks_ran
-        # context['prev_5_wordss'] = prev_5_wordss
-        context['next_5_recomends'] = next_5_recommended
-        context['checks_ran_searched_query'] = checks_ran_searched_query
-        context['recommendations_searched_query'] = recommendations_searched_query
-        context['next_5_for_first'] = next_5_for_first
-        # context['recommended_query'] = recommended_query
-        # context['checks'] = checks_list
-        return context
+            context = super().get_context_data(**kwargs)
+            context['next_5_checks_ran'] = next_5_checks_ran
+            # context['prev_5_words_checks_ran'] = prev_5_words_checks_ran
+            # context['prev_5_wordss'] = prev_5_wordss
+            context['next_5_recomends'] = next_5_recommended
+            context['checks_ran_searched_query'] = checks_ran_searched_query
+            context['recommendations_searched_query'] = recommendations_searched_query
+            context['next_5_for_first'] = next_5_for_first
+            # context['recommended_query'] = recommended_query
+            # context['checks'] = checks_list
+            return context

@@ -38,15 +38,15 @@
 <!-- checks ran -->
 
 {% for checks in next_5_checks_ran %}
-Database OBJ: {{checks.checks_ran}} <br>
-Checks Ran Title: <strong>{{checks.query_title}} <br></strong>
-Farm Title: <strong>{{checks.farm_id}} <br></strong>
+<strong>Database Report OBJ</strong>: {{checks.checks_ran}} <br>
+<strong>Checks Ran Title </strong>: {{checks.query_title}} <br>
+<strong>Farm Title:</strong> {{checks.farm_id}} <br>
 
-Prev 5 check ran: {{checks.prev_5}} <br>
+<strong>Prev 5 check ran </strong>: {{checks.prev_5}} <br>
 
 Searched Query: <strong>{{checks.query}} <br> </strong>
 
-Next 5 check ran: {{checks.next_5_words}} <br>
+<strong>Next 5 check ran </strong>: {{checks.next_5_words}} <br>
 {% endfor %}
 
 
@@ -56,9 +56,9 @@ Next 5 check ran: {{checks.next_5_words}} <br>
 
 {% for rr in next_5_recomends %}
 
-Database OBJ: {{rr.recommendation_query}} <br>
-Recommendations Title: <strong>{{rr.query_title}} <br></strong>
-Farm Title: <strong>{{rr.farm_id}} <br></strong>
+<strong>Database Report OBJ</strong>: {{rr.recommendation_query}} <br>
+<strong>Recommendations Title </strong>: {{rr.query_title}} <br>
+<strong> Recommendations Farm Title:</strong>: {{rr.farm_id}} <br>
 <!-- prev 5 -->
 Prev 5 Words <p>{{rr.prev_str}}</p>
 
